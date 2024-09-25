@@ -10,7 +10,17 @@ app.use(
   cors({
     origin: "*",
     methods: "*",
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Accept",
+      "Origin",
+      "Access-Control-Allow-Origin",
+      "Access-Control-Allow-Headers",
+      "Access-Control-Allow-Methods",
+      "Access-Control-Allow-Credentials",
+    ],
     credentials: true,
   })
 );
@@ -29,7 +39,7 @@ const server = app.listen(port, () => {
 io = socket(server, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+    methods: "*",
     allowedHeaders: [
       "Content-Type",
       "Authorization",
