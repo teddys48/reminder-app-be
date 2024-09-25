@@ -6,7 +6,14 @@ const moment = require("moment");
 const cron = require("node-cron");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    methods: "*",
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 const port = process.env.port;
