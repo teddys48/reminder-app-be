@@ -84,4 +84,8 @@ io.on("connection", (socket) => {
       });
     }
   });
+
+  socket.on("disconnected", (data) => {
+    console.log("socket disconnected");
+  });
 });
