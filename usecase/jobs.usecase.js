@@ -1,6 +1,7 @@
 const helper = require("../helper/helper");
 const moment = require("moment");
 const cron = require("node-cron");
+const { default: pusher } = require("../helper/pusher");
 
 const addJobs = async (req) => {
   try {
@@ -19,6 +20,7 @@ const addJobs = async (req) => {
       console.log(minutes, hour, day, month, dayOfWeek);
       cron.schedule(cronJob, () => {
         console.log("first");
+        pusher.trigger("reminder", "done", "done");
       });
     }
 
