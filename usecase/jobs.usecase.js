@@ -1,7 +1,7 @@
 const helper = require("../helper/helper");
 const moment = require("moment");
 const cron = require("node-cron");
-const { default: pusher } = require("../helper/pusher");
+const pusher = require("../helper/pusher");
 
 const addJobs = async (req) => {
   try {
@@ -18,9 +18,9 @@ const addJobs = async (req) => {
       let cronJob = `${minutes} ${hour} ${day} ${month} ${dayOfWeek}`;
 
       console.log(minutes, hour, day, month, dayOfWeek);
-      cron.schedule(cronJob, () => {
+      await cron.schedule(cronJob, async () => {
         console.log("first");
-        pusher.trigger("reminder", "done", "done");
+        pushTrigger(data.id);
       });
     }
 
@@ -28,6 +28,12 @@ const addJobs = async (req) => {
   } catch (error) {
     return helper.buildResponse(500, error, null);
   }
+};
+
+const pushTrigger = async (data) => {
+  await pusher.trigger("reminder", "done", "done", () => {
+    console.log("trigger success");
+  });
 };
 
 module.exports = { addJobs };
