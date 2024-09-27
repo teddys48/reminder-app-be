@@ -17,7 +17,7 @@ route.get("/test/:id", async (req, res) => {
   //     });
   // let a = await fetch("http://localhost:3000/update/1");
   // a.status
-  await pusher.trigger("reminder", "done", id, () => {
+  await pusher.trigger("reminder", "done", Number(id), () => {
     console.log("trigger success");
   });
   res.json("a");
