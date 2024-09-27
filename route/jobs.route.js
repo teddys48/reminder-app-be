@@ -5,7 +5,8 @@ const { default: axios } = require("axios");
 const pusher = require("../helper/pusher");
 
 route.post("/jobs/add", controller.addJobs);
-route.get("/test/", async (req, res) => {
+route.get("/test/:id", async (req, res) => {
+  let { id } = req.params;
   //   await axios
   //     .get("http://localhost:3000/update/1")
   //     .then((data) => {
@@ -16,7 +17,7 @@ route.get("/test/", async (req, res) => {
   //     });
   // let a = await fetch("http://localhost:3000/update/1");
   // a.status
-  await pusher.trigger("reminder", "done", 1727423531, () => {
+  await pusher.trigger("reminder", "done", id, () => {
     console.log("trigger success");
   });
   res.json("a");
