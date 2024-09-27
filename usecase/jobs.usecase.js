@@ -31,7 +31,7 @@ const addJobs = async (req) => {
 };
 
 const pushTrigger = async (data) => {
-  await pusher.trigger("reminder", "done", "done", () => {
+  await pusher.trigger("reminder", "done", data.id, () => {
     console.log("trigger success");
   });
 };
