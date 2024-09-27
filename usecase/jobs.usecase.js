@@ -20,7 +20,7 @@ const addJobs = async (req) => {
       console.log(minutes, hour, day, month, dayOfWeek);
       await cron.schedule(cronJob, async () => {
         console.log("first");
-        pushTrigger(data.id);
+        pushTrigger(element.id);
       });
     }
 
@@ -31,7 +31,7 @@ const addJobs = async (req) => {
 };
 
 const pushTrigger = async (data) => {
-  await pusher.trigger("reminder", "done", data.id, () => {
+  await pusher.trigger("reminder", "done", data, () => {
     console.log("trigger success");
   });
 };
