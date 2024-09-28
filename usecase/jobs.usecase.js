@@ -2,6 +2,8 @@ const helper = require("../helper/helper");
 const moment = require("moment");
 const cron = require("node-cron");
 const pusher = require("../helper/pusher");
+const { sendMail } = require("../helper/mail");
+var cronData = [];
 
 const addJobs = async (req) => {
   try {
@@ -18,11 +20,18 @@ const addJobs = async (req) => {
       let cronJob = `${minutes} ${hour} ${day} ${month} ${dayOfWeek}`;
 
       console.log(minutes, hour, day, month, dayOfWeek);
-      await cron.schedule(cronJob, async () => {
-        console.log("first");
-        pushTrigger(element.id);
-      });
+      // cron.schedule(cronJob, async () => {
+      //   console.log("first");
+      //   pushTrigger(element.id);
+      // });
+
+      element.cron = cronJob;
+
+      cronData.push(element);
     }
+
+    await addToCron();
+    await scheduleDelete()
 
     return helper.buildResponse(0, "success", null);
   } catch (error) {
@@ -35,5 +44,32 @@ const pushTrigger = async (data) => {
     console.log("trigger success");
   });
 };
+
+const addToCron = async () => {
+  // console.log("cek cron data", cronData);
+  for (const element of cronData) {
+    cron.schedule(element.cron, async () => {
+      console.log("first");
+      pushTrigger(element.id);
+      await sendMail(element.name);
+    });
+  }
+};
+
+const scheduleDelete = async () => {};
+cron.schedule("* * * * *", () => {
+  // console.log("cron running", cronData);
+  for (const element of cronData) {
+    if (
+      moment()
+        .format("YYYY-MM-DD HH:mm:ss")
+        .isAfter(moment(element.time, "YYYY-MM-DD HH:mm:ss"))
+    ) {
+      console.log("deleting", element.id);
+      delete element;
+    }
+    console.log("after delete", cronData);
+  }
+});
 
 module.exports = { addJobs };
