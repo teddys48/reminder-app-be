@@ -10,9 +10,9 @@ const {
 console.log("cek email conf", email_password, email_user);
 const transporter = nodemailer.createTransport({
   service: "gmail",
-  // host: "smtp.gmail.com",
-  // port: 465,
-  // secure: true,
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     type: "OAuth2",
     user: email_user,
