@@ -31,13 +31,21 @@ const sendMail = async (text) => {
     text: text,
   };
   console.log("cek option mail", mailOptions, email_user, email_password);
-  await transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("email status", info.response);
-    }
-  });
+  await transporter
+    .sendMail(mailOptions)
+    .then((data) => {
+      console.log("email status", data.response);
+    })
+    .catch((err) => {
+      console.log("email err", err);
+    });
+  //   await transporter.sendMail(mailOptions, (err, info) => {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       console.log("email status", info.response);
+  //     }
+  //   });
 };
 
 module.exports = { sendMail };
