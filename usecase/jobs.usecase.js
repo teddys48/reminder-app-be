@@ -32,7 +32,6 @@ const addJobs = async (req) => {
     }
 
     await addToCron();
-    await scheduleDelete();
 
     return helper.buildResponse(0, "success", null);
   } catch (error) {
