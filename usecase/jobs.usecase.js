@@ -36,7 +36,7 @@ const addJobs = async (req) => {
 
     return helper.buildResponse(0, "success", null);
   } catch (error) {
-    return helper.buildResponse(500, error, null);
+    return helper.buildResponse(500, error.message, null);
   }
 };
 
@@ -97,7 +97,7 @@ const deleteJobs = async (req) => {
     response = helper.buildResponse(0, "success", null);
   } catch (error) {
     console.log(error);
-    response = helper.buildResponse(500, error, null);
+    response = helper.buildResponse(500, error.message, null);
   }
 
   return response;
