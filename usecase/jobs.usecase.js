@@ -48,8 +48,8 @@ const addToCron = async () => {
     cron.schedule(element.cron, async () => {
       console.log("first");
       pushTrigger(element.id);
-      await sendMail(element.name);
-      await sendTelegramMessage(element.name);
+      // await sendMail(element.name);
+      // await sendTelegramMessage(element.name);
     });
   }
   // } catch (error) {
