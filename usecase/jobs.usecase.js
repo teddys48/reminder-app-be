@@ -57,25 +57,25 @@ const addToCron = async () => {
   // }
 };
 
-cron.schedule("0 1 * * *", () => {
-  try {
-    console.log("cron running", cronData);
-    for (let index = 0; index < cronData.length; index++) {
-      console.log(
-        "first run",
-        moment(cronData[index].time, "YYYY-MM-DD HH:mm:ss")
-      );
-      if (
-        moment().isAfter(moment(cronData[index].time, "YYYY-MM-DD HH:mm:ss"))
-      ) {
-        cronData.splice(index, 1);
-      }
-      console.log("after delete", cronData);
-    }
-  } catch (error) {
-    console.log("cron error delete", error.message);
-  }
-});
+// cron.schedule("0 1 * * *", () => {
+//   try {
+//     console.log("cron running", cronData);
+//     for (let index = 0; index < cronData.length; index++) {
+//       console.log(
+//         "first run",
+//         moment(cronData[index].time, "YYYY-MM-DD HH:mm:ss")
+//       );
+//       if (
+//         moment().isAfter(moment(cronData[index].time, "YYYY-MM-DD HH:mm:ss"))
+//       ) {
+//         cronData.splice(index, 1);
+//       }
+//       console.log("after delete", cronData);
+//     }
+//   } catch (error) {
+//     console.log("cron error delete", error.message);
+//   }
+// });
 
 const deleteJobs = async (req) => {
   let response;
