@@ -57,7 +57,7 @@ const addToCron = async () => {
       });
     }
   } catch (error) {
-    console.log("error cron", error);
+    console.log("error cron", error.message);
   }
 };
 
@@ -77,7 +77,7 @@ cron.schedule("0 1 * * *", () => {
       console.log("after delete", cronData);
     }
   } catch (error) {
-    console.log("cron error delete", error);
+    console.log("cron error delete", error.message);
   }
 });
 
