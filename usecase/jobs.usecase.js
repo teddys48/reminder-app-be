@@ -3,6 +3,7 @@ const moment = require("moment");
 const cron = require("node-cron");
 const pusher = require("../helper/pusher");
 const { sendMail } = require("../helper/mail");
+const { sendTelegramMessage } = require("../helper/telegram");
 var cronData = [];
 
 const addJobs = async (req) => {
@@ -31,7 +32,7 @@ const addJobs = async (req) => {
     }
 
     await addToCron();
-    await scheduleDelete()
+    await scheduleDelete();
 
     return helper.buildResponse(0, "success", null);
   } catch (error) {
@@ -47,29 +48,59 @@ const pushTrigger = async (data) => {
 
 const addToCron = async () => {
   // console.log("cek cron data", cronData);
-  for (const element of cronData) {
-    cron.schedule(element.cron, async () => {
-      console.log("first");
-      pushTrigger(element.id);
-      await sendMail(element.name);
-    });
+  try {
+    for (const element of cronData) {
+      cron.schedule(element.cron, async () => {
+        console.log("first");
+        pushTrigger(element.id);
+        await sendMail(element.name);
+        await sendTelegramMessage(element.text);
+      });
+    }
+  } catch (error) {
+    console.log("error cron", error);
   }
 };
 
-const scheduleDelete = async () => {};
-cron.schedule("* * * * *", () => {
-  // console.log("cron running", cronData);
-  for (const element of cronData) {
-    if (
-      moment()
-        .format("YYYY-MM-DD HH:mm:ss")
-        .isAfter(moment(element.time, "YYYY-MM-DD HH:mm:ss"))
-    ) {
-      console.log("deleting", element.id);
-      delete element;
+cron.schedule("0 1 * * *", () => {
+  try {
+    console.log("cron running", cronData);
+    for (let index = 0; index < cronData.length; index++) {
+      console.log(
+        "first run",
+        moment(cronData[index].time, "YYYY-MM-DD HH:mm:ss")
+      );
+      if (
+        moment().isAfter(moment(cronData[index].time, "YYYY-MM-DD HH:mm:ss"))
+      ) {
+        cronData.splice(index, 1);
+      }
+      console.log("after delete", cronData);
     }
-    console.log("after delete", cronData);
+  } catch (error) {
+    console.log("cron error delete", error);
   }
 });
 
-module.exports = { addJobs };
+const deleteJobs = async (req) => {
+  let response;
+  try {
+    let { id } = req.body;
+    for (let index = 0; index < cronData.length; index++) {
+      if (id == cronData[index].id) {
+        cronData.splice(index, 1);
+      }
+      console.log("after delete", cronData);
+    }
+    await addToCron();
+
+    response = helper.buildResponse(0, "success", null);
+  } catch (error) {
+    console.log(error);
+    response = helper.buildResponse(500, error, null);
+  }
+
+  return response;
+};
+
+module.exports = { addJobs, deleteJobs };

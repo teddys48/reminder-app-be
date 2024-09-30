@@ -7,7 +7,6 @@ const {
   email_refresh_token,
 } = process.env;
 
-console.log("cek email conf", email_password, email_user);
 const transporter = nodemailer.createTransport({
   service: "gmail",
   host: "smtp.gmail.com",
@@ -25,7 +24,7 @@ const transporter = nodemailer.createTransport({
 
 const sendMail = async (text) => {
   let mailOptions = {
-    from: email_user,
+    from: "REMINDER APP " + "<" + email_user + ">",
     to: "ziusesan@gmail.com",
     subject: "REMINDER",
     text: text,
@@ -39,13 +38,6 @@ const sendMail = async (text) => {
     .catch((err) => {
       console.log("email err", err);
     });
-  //   await transporter.sendMail(mailOptions, (err, info) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log("email status", info.response);
-  //     }
-  //   });
 };
 
 module.exports = { sendMail };
