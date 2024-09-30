@@ -43,18 +43,18 @@ const pushTrigger = async (data) => {
 
 const addToCron = async () => {
   // console.log("cek cron data", cronData);
-  try {
-    for (const element of cronData) {
-      cron.schedule(element.cron, async () => {
-        console.log("first");
-        pushTrigger(element.id);
-        await sendMail(element.name);
-        // await sendTelegramMessage(element.name);
-      });
-    }
-  } catch (error) {
-    console.log("error cron", error.message);
+  // try {
+  for (const element of cronData) {
+    cron.schedule(element.cron, async () => {
+      console.log("first");
+      pushTrigger(element.id);
+      await sendMail(element.name);
+      await sendTelegramMessage(element.name);
+    });
   }
+  // } catch (error) {
+  //   console.log("error cron", error.message);
+  // }
 };
 
 cron.schedule("0 1 * * *", () => {
