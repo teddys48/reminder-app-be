@@ -16,6 +16,7 @@ route.get("/test/:id", async (req, res) => {
     console.log("trigger success");
   });
   await sendMail("test");
+  await sendTelegramMessage("test");
 
   res.json("a");
 });

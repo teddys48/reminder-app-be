@@ -47,7 +47,7 @@ const addToCron = async () => {
     for (const element of cronData) {
       cron.schedule(element.cron, async () => {
         console.log("first");
-        pushTrigger(element.id);
+        await pushTrigger(element.id);
         await sendMail(element.name);
         await sendTelegramMessage(element.name);
       });
