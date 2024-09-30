@@ -9,7 +9,7 @@ var cronData = [];
 const addJobs = async (req) => {
   try {
     let { data } = req.body;
-    console.log("first", data);
+    console.log("first", data, moment().format("YYYY-MM-DD HH:mm:ss"));
     for (const element of data) {
       date = moment(element.time, "YYYY-MM-DD HH:mm:ss");
       let minutes = date.minute();
@@ -21,10 +21,6 @@ const addJobs = async (req) => {
       let cronJob = `${minutes} ${hour} ${day} ${month} ${dayOfWeek}`;
 
       console.log(minutes, hour, day, month, dayOfWeek);
-      // cron.schedule(cronJob, async () => {
-      //   console.log("first");
-      //   pushTrigger(element.id);
-      // });
 
       element.cron = cronJob;
 
