@@ -13,7 +13,7 @@ const sendTelegramMessage = async (msg) => {
       await bot.sendMessage(telegram_chat_id, msg);
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
 

@@ -53,7 +53,7 @@ const addToCron = async () => {
         console.log("first");
         pushTrigger(element.id);
         await sendMail(element.name);
-        await sendTelegramMessage(element.text);
+        await sendTelegramMessage(element.name);
       });
     }
   } catch (error) {
