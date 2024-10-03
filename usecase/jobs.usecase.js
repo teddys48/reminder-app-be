@@ -24,10 +24,17 @@ const addJobs = async (req) => {
 
       element.cron = cronJob;
 
+      cron.schedule(cronJob, async () => {
+        console.log("first");
+        await pushTrigger(element.id);
+        // await sendMail(element.name);
+        // await sendTelegramMessage(element.name);
+      });
+
       cronData.push(element);
     }
     console.log("cek cron data", cronData);
-    await addToCron();  
+    await addToCron();
 
     return helper.buildResponse(0, "success", null);
   } catch (error) {
