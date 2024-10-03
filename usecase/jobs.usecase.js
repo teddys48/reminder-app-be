@@ -27,7 +27,7 @@ const addJobs = async (req) => {
       cronData.push(element);
     }
     console.log("cek cron data", cronData);
-    await addToCron();
+    await addToCron();  
 
     return helper.buildResponse(0, "success", null);
   } catch (error) {
