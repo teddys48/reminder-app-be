@@ -29,7 +29,7 @@ route.get("/mail", async (req, res) => {
     console.log("fail send mail ", error.message);
   }
 
-  res.json(resp);
+  res.json("done");
 });
 
 route.get("/tele", async (req, res) => {
