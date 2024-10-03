@@ -22,15 +22,25 @@ route.get("/test/:id", async (req, res) => {
 });
 
 route.get("/mail", async (req, res) => {
-  let resp = await sendMail("test");
+  try {
+    await sendMail("test");
+    console.log("success send mail");
+  } catch (error) {
+    console.log("fail send mail ", error.message);
+  }
 
   res.json(resp);
 });
 
 route.get("/tele", async (req, res) => {
-  let a = await sendTelegramMessage("test");
+  try {
+    await sendTelegramMessage("test");
+    console.log("success send telegram");
+  } catch (error) {
+    console.log("fail send telegram ", error.message);
+  }
 
-  res.json(a);
+  res.json("done");
 });
 
 module.exports = route;
