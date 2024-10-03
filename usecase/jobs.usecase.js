@@ -23,13 +23,6 @@ const addJobs = async (req) => {
       console.log(minutes, hour, day, month, dayOfWeek);
 
       element.cron = cronJob;
-      await pushTrigger(element.id);
-      cron.schedule(cronJob, async () => {
-        console.log("first");
-        await pushTrigger(element.id);
-        // await sendMail(element.name);
-        // await sendTelegramMessage(element.name);
-      });
 
       cronData.push(element);
     }
